@@ -1,157 +1,16 @@
 //
-//  LoginView.swift
+//  RegisterView.swift
 //  SocialMedia
 //
 //  Created by Seungchul Ha on 2023/01/02.
 //
 
 import SwiftUI
-
-// MARK: For Native SwiftUI Image Picker
-import PhotosUI
-import Firebase
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
-
-struct LoginView: View {
-    
-    // MARK: User Details
-    @State var emailID: String = ""
-    @State var password: String = ""
-    
-    // MARK: View Properties
-    @State var createAccount: Bool = false
-    
-    // MARK: Firebase Properties
-    @State var showError: Bool = false
-    @State var errorMessage: String = ""
-    
-    @State var isLoading: Bool = false
-    
-    // MARK: User Defulats
-    @AppStorage("user_profile_url") var profileURL: URL?
-    @AppStorage("user_name") var userNameStored: String = ""
-    @AppStorage("user_UID") var userUID: String = ""
-    @AppStorage("log_status") var logStatus: Bool = false
-    
-    var body: some View {
-        VStack(spacing: 10) {
-            Text("Lets Sign you in")
-                .font(.largeTitle.bold())
-                .hAlign(.leading)
-            
-            Text("Welcome Back, \nYou have been missed")
-                .font(.title3)
-                .hAlign(.leading)
-            
-            VStack(spacing: 12) {
-                TextField("Email", text: $emailID)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                    .padding(.top, 25)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                
-                SecureField("Password", text: $password)
-                    .border(1, .gray.opacity(0.5))
-                
-                Button("Reset password?", action: resetPassword)
-                    .font(.callout)
-                    .fontWeight(.medium)
-                    .tint(.black)
-                    .hAlign(.trailing)
-                
-                Button(action: loginUser){
-                    // MARK: Login Button
-                    Text("Sign In")
-                        .foregroundColor(.white)
-                        .hAlign(.center)
-                        .fillView(.black)
-                }
-                .padding(.top, 10)
-            }
-            
-            // MARK: Register Button
-            HStack {
-                Text("Don't have an account?")
-                    .foregroundColor(.gray)
-                
-                Button("Register Now") {
-                    createAccount = true
-                }
-                .fontWeight(.bold)
-                .foregroundColor(.black)
-            }
-            .font(.callout)
-            .vAlign(.bottom)
-        }
-        .vAlign(.top)
-        .padding(15)
-        .overlay {
-            LoadingView(show: $isLoading)
-        }
-        .fullScreenCover(isPresented: $createAccount) {
-            RegisterView()
-        }
-        // MARK: Displaying Alert
-        .alert(errorMessage, isPresented: $showError, actions: {})
-    }
-    
-    func loginUser() {
-        
-        isLoading = true
-        closeKeyboard()
-        
-        Task {
-            do {
-                // With the help of Swift Concurrency Auth can be done with Single Line
-                try await Auth.auth().signIn(withEmail: emailID, password: password)
-                print("User Found")
-                try await fetchUser()
-            } catch {
-                await setError(error)
-            }
-        }
-    }
-    
-    // MARK: If User if found then Fetching User Data From Firestore
-    func fetchUser() async throws {
-        
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        let user = try await Firestore.firestore().collection("User").document(userID).getDocument(as: User.self)
-        // MARK: UI Updating Must be Run On Main Thread
-        await MainActor.run(body: {
-            // Setting UserDefaults data and Changing App's Auth Status
-            userUID = userID
-            userNameStored = user.username
-            profileURL = user.userProfileURL
-            logStatus = true
-        })
-    }
-    
-    
-    func resetPassword() {
-        Task {
-            do {
-                // With the help of Swift Concurrency Auth can be done with Single Line
-                try await Auth.auth().sendPasswordReset(withEmail: emailID)
-                print("Link Sent")
-            } catch {
-                await setError(error)
-            }
-        }
-    }
-    
-    // MARK: Displaying Errors via Alert
-    func setError(_ error: Error) async {
-        // MARK: UI Must be Updated on Main Thread
-        await MainActor.run(body: {
-            errorMessage = error.localizedDescription
-            showError.toggle()
-            isLoading = false
-        })
-    }
-}
+// MARK: For Native SwiftUI Image Picker
+import PhotosUI
 
 // MARK: Register View
 struct RegisterView: View {
@@ -329,7 +188,7 @@ struct RegisterView: View {
                 // Step 4 : Creating a User Firestore Object
                 let user = User(username: userName, userBio: userBio, userBioLink: userBioLink, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
                 // Step 5 : Saving User Doc into Firestore Database
-                let _ = try Firestore.firestore().collection("User").document(userUID).setData(from: user, completion: { error in
+                let _ = try Firestore.firestore().collection("Users").document(userUID).setData(from: user, completion: { error in
                     if error == nil {
                         // MARK: Print Saved Successfully
                         print("Saved Successfully")
@@ -365,57 +224,8 @@ struct RegisterView: View {
     }
 }
 
-struct LoginView_Previews: PreviewProvider {
+struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
-    }
-}
-
-// MARK: View Extensions For UI Building
-extension View {
-    
-    // Closing All Active Keyboards
-    // When the Sign in or Sign Up Buttons are pressed, the active keyboard is closed
-    func closeKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-    
-    // MARK: Disabling with Opacity
-    func disableWithOpacity(_ condition: Bool) -> some View {
-        self
-            .disabled(condition)
-            .opacity(condition ? 0.6 : 1)
-    }
-    
-    func hAlign(_ alignment: Alignment) -> some View {
-        self
-            .frame(maxWidth: .infinity, alignment: alignment)
-    }
-    
-    func vAlign(_ alignment: Alignment) -> some View {
-        self
-            .frame(maxHeight: .infinity, alignment: alignment)
-    }
-    
-    // MARK: Custom Border View With Padding
-    func border(_ width: CGFloat, _ color: Color) -> some View {
-        self
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
-            .background {
-                RoundedRectangle(cornerRadius: 5, style: .continuous)
-                    .stroke(color, lineWidth: width)
-            }
-    }
-    
-    // MARK: Custom Fill View With Padding
-    func fillView(_ color: Color) -> some View {
-        self
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
-            .background {
-                RoundedRectangle(cornerRadius: 5, style: .continuous)
-                    .fill(color)
-            }
+        ContentView()
     }
 }
