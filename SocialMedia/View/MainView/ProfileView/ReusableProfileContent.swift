@@ -16,6 +16,7 @@ import SDWebImageSwiftUI
 struct ReusableProfileContent: View {
     
     var user: User
+    @State private var fetchedPosts: [Post] = []
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -58,6 +59,10 @@ struct ReusableProfileContent: View {
                     .foregroundColor(.black)
                     .hAlign(.leading)
                     .padding(.vertical, 15)
+                
+                /// This is why we created Reusable Post View, so that when you pass the user uid,
+                /// it simply fetches all the posts associated with the user uid, avoiding redundancy codes.
+                ReusablePostsView(basedOnUID: true, uid: user.userUID, posts: $fetchedPosts)
             }
             .padding(15)
         }

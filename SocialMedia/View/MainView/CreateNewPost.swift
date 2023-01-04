@@ -221,3 +221,5 @@ struct CreateNewPost_Previews: PreviewProvider {
 
 // MARK: Part 5
 /// explain the process of the Search User Feature
+/// In this part, we will see how to add pagination for the posts section,
+/// which we built in our earlier, and also add a search user feature to. earch for users in Social Media App.
