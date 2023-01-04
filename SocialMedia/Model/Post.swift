@@ -5,11 +5,12 @@
 //  Created by Seungchul Ha on 2023/01/03.
 //
 
+import Foundation
 import SwiftUI
 import FirebaseFirestoreSwift
 
 // MARK: Post Model
-struct Post: Identifiable, Codable {
+struct Post: Codable, Identifiable {
     @DocumentID var id: String?
     var text: String
     var imageURL: URL?
@@ -29,7 +30,7 @@ struct Post: Identifiable, Codable {
         case imageReferenceID // Image Refernce ID (Used for Deletion)
         case publishedDate
         case likedIDs // People's user IDs who liked or dislied
-        case dislikeIDs
+        case dislikedIDs
         case userName // Post Author's basic info ( for Post View )
         case userUID
         case userProfileURL
