@@ -10,7 +10,7 @@ import SwiftUI
 import FirebaseFirestoreSwift
 
 // MARK: Post Model
-struct Post: Codable, Identifiable {
+struct Post: Codable, Identifiable, Equatable, Hashable {
     @DocumentID var id: String?
     var text: String
     var imageURL: URL?

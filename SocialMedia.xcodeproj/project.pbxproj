@@ -13,6 +13,8 @@
 		AA8CC1E72964825A00240CE6 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA8CC1E62964825A00240CE6 /* FirebaseFirestoreSwift */; };
 		AA8CC1E92964825A00240CE6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AA8CC1E82964825A00240CE6 /* FirebaseStorage */; };
 		AA8CC1EB296542FE00240CE6 /* PostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CC1EA296542FE00240CE6 /* PostsView.swift */; };
+		AA8CC1ED29656B5000240CE6 /* ReusablePostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CC1EC29656B5000240CE6 /* ReusablePostsView.swift */; };
+		AA8CC1EF2965784500240CE6 /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CC1EE2965784500240CE6 /* PostCardView.swift */; };
 		AACDCD992962B40300BA58E2 /* SocialMediaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACDCD982962B40300BA58E2 /* SocialMediaApp.swift */; };
 		AACDCD9B2962B40300BA58E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACDCD9A2962B40300BA58E2 /* ContentView.swift */; };
 		AACDCD9D2962B40500BA58E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AACDCD9C2962B40500BA58E2 /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 
 /* Begin PBXFileReference section */
 		AA8CC1EA296542FE00240CE6 /* PostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsView.swift; sourceTree = "<group>"; };
+		AA8CC1EC29656B5000240CE6 /* ReusablePostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusablePostsView.swift; sourceTree = "<group>"; };
+		AA8CC1EE2965784500240CE6 /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
 		AACDCD952962B40300BA58E2 /* SocialMedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocialMedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AACDCD982962B40300BA58E2 /* SocialMediaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaApp.swift; sourceTree = "<group>"; };
 		AACDCD9A2962B40300BA58E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -148,6 +152,8 @@
 				AACDCDCA29632FFE00BA58E2 /* ReusableProfileContent.swift */,
 				AACDCDCF2964734D00BA58E2 /* CreateNewPost.swift */,
 				AA8CC1EA296542FE00240CE6 /* PostsView.swift */,
+				AA8CC1EC29656B5000240CE6 /* ReusablePostsView.swift */,
+				AA8CC1EE2965784500240CE6 /* PostCardView.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -256,12 +262,14 @@
 				AACDCDC72963228600BA58E2 /* MainView.swift in Sources */,
 				AACDCDD2296473EB00BA58E2 /* Post.swift in Sources */,
 				AACDCDAF2962B8A400BA58E2 /* LoginView.swift in Sources */,
+				AA8CC1ED29656B5000240CE6 /* ReusablePostsView.swift in Sources */,
 				AACDCDCB29632FFE00BA58E2 /* ReusableProfileContent.swift in Sources */,
 				AACDCD9B2962B40300BA58E2 /* ContentView.swift in Sources */,
 				AACDCDC2296321D900BA58E2 /* RegisterView.swift in Sources */,
 				AACDCDD02964734D00BA58E2 /* CreateNewPost.swift in Sources */,
 				AA8CC1EB296542FE00240CE6 /* PostsView.swift in Sources */,
 				AACDCDBE2963040200BA58E2 /* LoadingView.swift in Sources */,
+				AA8CC1EF2965784500240CE6 /* PostCardView.swift in Sources */,
 				AACDCDC52963223600BA58E2 /* View+Extension.swift in Sources */,
 				AACDCD992962B40300BA58E2 /* SocialMediaApp.swift in Sources */,
 			);
